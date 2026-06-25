@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mi App Localidades
 
-## Getting Started
+## Descripción
 
-First, run the development server:
+Mi App Localidades es una aplicación web desarrollada con Next.js que permite administrar la información de una base de datos mediante operaciones CRUD (Crear, Consultar, Actualizar y Eliminar).
+
+El sistema cuenta con una página principal desde donde el usuario puede acceder a los diferentes módulos del proyecto para gestionar la información de manera sencilla e intuitiva.
+
+## Tecnologías utilizadas
+
+- Next.js
+- React
+- JavaScript
+- CSS Modules
+- Node.js
+- MySQL
+- Express.js
+
+## Funcionalidades
+
+- Página principal (Portada).
+- Gestión de Sexo.
+- Gestión de Zona.
+- Gestión de Localidad.
+- Operaciones CRUD completas.
+- Consumo de API REST.
+- Interfaz amigable para el usuario.
+
+## Estructura del proyecto
+
+```
+app/
+│
+├── page.tsx
+├── sexo/
+├── zona/
+├── localidad/
+├── globals.css
+└── style.module.css
+```
+
+## Instalación
+
+Clonar el repositorio
+
+```bash
+git clone https://github.com/SebasAlfa/MI-APP-LOCALIDADES.git
+```
+
+Ingresar al proyecto
+
+```bash
+cd MI-APP-LOCALIDADES
+```
+
+Instalar dependencias
+
+```bash
+npm install
+```
+
+Ejecutar el proyecto
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrir en el navegador
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Autor
 
-## Learn More
+Jhoan Sebastián Alfaro Robayo
 
-To learn more about Next.js, take a look at the following resources:
+## Licencia
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Proyecto desarrollado con fines académicos.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Capturas del proyecto
 
-## Deploy on Vercel
+### Página principal
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![Pagina principal](image.png)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### CRUD Sexo
+
+![CRUD sexo](image-1.png)
+
+### CRUD Zona
+
+![CRUD Zona](image-2.png)
+
+### CRUD Localidad
+
+![CRUD Localidad](image-3.png)
+
+### Base de datos
+
+![Base de datos](image-4.png)
+
+## Conclusión
+
+Este proyecto permitió implementar una aplicación web completa utilizando tecnologías modernas para el desarrollo frontend y backend, integrando una base de datos relacional y aplicando operaciones CRUD mediante una API REST.
