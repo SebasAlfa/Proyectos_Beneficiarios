@@ -28,6 +28,17 @@ const LocalidadModel = {
       [Id_localidad]
     );
     return result;
+  },
+
+  search: async (texto) => {
+    const [rows] = await pool.query(
+      `SELECT * FROM localidades
+       WHERE CODLOC LIKE ?
+       OR LOCALIDAD LIKE ?`,
+      [`%${texto}%`, `%${texto}%`]
+    );
+
+    return rows;
   }
 };
 

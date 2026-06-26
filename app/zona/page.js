@@ -6,11 +6,16 @@ import styles from '../zona/style.module.css';
 export default function ZonaCrud() {
   const [zonas, setZonas] = useState([]);
   const [nombreZona, setNombreZona] = useState('');
+  const [buscar, setBuscar] = useState('');
   const [editandoId, setEditandoId] = useState(null);
 
-  const fetchZonas = async () => {
+  const fetchZonas = async (texto = '') => {
     try {
-      const res = await fetch('/api/zona');
+      const url = texto
+        ? `/api/zona?buscar=${encodeURIComponent(texto)}`
+        : '/api/zona';
+
+      const res = await fetch(url);
       const data = await res.json();
 
       if (Array.isArray(data)) {
@@ -26,6 +31,12 @@ export default function ZonaCrud() {
   useEffect(() => {
     fetchZonas();
   }, []);
+
+  const buscarZona = (e) => {
+    const texto = e.target.value;
+    setBuscar(texto);
+    fetchZonas(texto);
+  };
 
   const prepararEdicion = (zona) => {
     setNombreZona(zona.ZONA_COLEGIO_GRADUACION_MEDIA);
@@ -61,6 +72,7 @@ export default function ZonaCrud() {
       }
 
       setNombreZona('');
+      setBuscar('');
       fetchZonas();
     } catch (error) {
       console.error(error);
@@ -83,6 +95,27 @@ export default function ZonaCrud() {
     <div className={styles.container}>
       <h1>Gestión de Zonas</h1>
 
+      <div className={styles.searchContainer}>
+        <input
+          className={styles.input}
+          type="text"
+          placeholder="Buscar zona..."
+          value={buscar}
+          onChange={buscarZona}
+        />
+
+        <button
+          type="button"
+          className={styles.button}
+          onClick={() => {
+            setBuscar('');
+            fetchZonas();
+          }}
+        >
+          Mostrar todas
+        </button>
+      </div>
+
       <form onSubmit={guardarZona} className={styles.form}>
         <input
           className={styles.input}
@@ -99,25 +132,31 @@ export default function ZonaCrud() {
       </form>
 
       <div>
-        {zonas.map((zona) => (
-          <div key={zona.Id_zona} className={styles.card}>
-            <strong>ID: {zona.Id_zona}</strong> - {zona.ZONA_COLEGIO_GRADUACION_MEDIA}
+        {zonas.length > 0 ? (
+          zonas.map((zona) => (
+            <div key={zona.Id_zona} className={styles.card}>
+              <strong>ID: {zona.Id_zona}</strong> - {zona.ZONA_COLEGIO_GRADUACION_MEDIA}
 
-            <button
-              className={styles.button}
-              onClick={() => prepararEdicion(zona)}
-            >
-              Editar
-            </button>
+              <div style={{ marginTop: '10px' }}>
+                <button
+                  className={styles.button}
+                  onClick={() => prepararEdicion(zona)}
+                >
+                  Editar
+                </button>
 
-            <button
-              className={`${styles.button} ${styles.buttonDelete}`}
-              onClick={() => borrarZona(zona.Id_zona)}
-            >
-              Borrar
-            </button>
-          </div>
-        ))}
+                <button
+                  className={`${styles.button} ${styles.buttonDelete}`}
+                  onClick={() => borrarZona(zona.Id_zona)}
+                >
+                  Borrar
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No se encontraron zonas.</p>
+        )}
       </div>
     </div>
   );

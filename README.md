@@ -87,19 +87,19 @@ Proyecto desarrollado con fines académicos.
 
 ### CRUD Sexo
 
-![CRUD sexo](image-1.png)
+![CRUD sexo](image-4.png)
 
 ### CRUD Zona
 
-![CRUD Zona](image-2.png)
+![CRUD zona](image-1.png)
 
 ### CRUD Localidad
 
-![CRUD Localidad](image-3.png)
+![CRUD Localidad](image-6.png)
 
 ### Base de datos
 
-![Base de datos](image-4.png)
+![Base de datos](image-2.png)
 
 ## Conclusión
 

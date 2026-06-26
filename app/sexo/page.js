@@ -7,11 +7,16 @@ export default function SexoCrud() {
   const [sexos, setSexos] = useState([]);
   const [idSexo, setIdSexo] = useState('');
   const [sexo, setSexo] = useState('');
+  const [buscar, setBuscar] = useState('');
   const [editandoId, setEditandoId] = useState(null);
 
-  const fetchSexos = async () => {
+  const fetchSexos = async (texto = '') => {
     try {
-      const res = await fetch('/api/sexo');
+      const url = texto
+        ? `/api/sexo?buscar=${encodeURIComponent(texto)}`
+        : '/api/sexo';
+
+      const res = await fetch(url);
       const data = await res.json();
 
       if (Array.isArray(data)) {
@@ -27,6 +32,12 @@ export default function SexoCrud() {
   useEffect(() => {
     fetchSexos();
   }, []);
+
+  const buscarSexo = (e) => {
+    const texto = e.target.value;
+    setBuscar(texto);
+    fetchSexos(texto);
+  };
 
   const prepararEdicion = (item) => {
     setIdSexo(item.ID_SEXO);
@@ -63,6 +74,7 @@ export default function SexoCrud() {
 
       setIdSexo('');
       setSexo('');
+      setBuscar('');
       setEditandoId(null);
 
       fetchSexos();
@@ -86,6 +98,27 @@ export default function SexoCrud() {
   return (
     <div className={styles.container}>
       <h1>Gestión de Sexo</h1>
+
+      <div className={styles.searchContainer}>
+        <input
+          className={styles.input}
+          type="text"
+          placeholder="Buscar por ID o nombre..."
+          value={buscar}
+          onChange={buscarSexo}
+        />
+
+        <button
+          type="button"
+          className={styles.button}
+          onClick={() => {
+            setBuscar('');
+            fetchSexos();
+          }}
+        >
+          Mostrar todos
+        </button>
+      </div>
 
       <form onSubmit={guardarSexo} className={styles.form}>
         <input
@@ -113,25 +146,31 @@ export default function SexoCrud() {
       </form>
 
       <div>
-        {sexos.map((item) => (
-          <div key={item.ID_SEXO} className={styles.card}>
-            <strong>{item.ID_SEXO}</strong> - {item.SEXOS}
+        {sexos.length > 0 ? (
+          sexos.map((item) => (
+            <div key={item.ID_SEXO} className={styles.card}>
+              <strong>{item.ID_SEXO}</strong> - {item.SEXOS}
 
-            <button
-              className={styles.button}
-              onClick={() => prepararEdicion(item)}
-            >
-              Editar
-            </button>
+              <div style={{ marginTop: '10px' }}>
+                <button
+                  className={styles.button}
+                  onClick={() => prepararEdicion(item)}
+                >
+                  Editar
+                </button>
 
-            <button
-              className={`${styles.button} ${styles.buttonDelete}`}
-              onClick={() => borrarSexo(item.ID_SEXO)}
-            >
-              Borrar
-            </button>
-          </div>
-        ))}
+                <button
+                  className={`${styles.button} ${styles.buttonDelete}`}
+                  onClick={() => borrarSexo(item.ID_SEXO)}
+                >
+                  Borrar
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No se encontraron registros.</p>
+        )}
       </div>
     </div>
   );

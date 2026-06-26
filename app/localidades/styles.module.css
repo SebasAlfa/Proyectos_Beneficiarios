@@ -4,3 +4,4 @@
 .button { padding: 10px 15px; background-color: #0070f3; color: white; border: none; cursor: pointer; border-radius: 4px; }
 .buttonDelete { background-color: #ff4d4f; margin-left: 10px; }
 .card { border: 1px solid #eaeaea; padding: 15px; margin-bottom: 10px; border-radius: 5px; }
+.searchContainer { display: flex; gap: 10px; margin-bottom: 20px; }

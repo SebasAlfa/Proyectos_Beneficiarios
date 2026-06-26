@@ -1,12 +1,27 @@
 import { NextResponse } from 'next/server';
 import LocalidadModel from '../../../models/localidadModel';
 
-export async function GET() {
+export async function GET(request) {
   try {
-    const localidades = await LocalidadModel.getAll();
+    const { searchParams } = new URL(request.url);
+    const buscar = searchParams.get('buscar');
+
+    let localidades;
+
+    if (buscar) {
+      localidades = await LocalidadModel.search(buscar);
+    } else {
+      localidades = await LocalidadModel.getAll();
+    }
+
     return NextResponse.json(localidades);
   } catch (error) {
-    return NextResponse.json({ error: 'Error al obtener localidades' }, { status: 500 });
+    console.error(error);
+
+    return NextResponse.json(
+      { error: 'Error al obtener localidades' },
+      { status: 500 }
+    );
   }
 }
 

@@ -1,11 +1,23 @@
 import { NextResponse } from 'next/server';
 import ZonaModel from '../../../models/zonaModel';
 
-export async function GET() {
+export async function GET(request) {
   try {
-    const zonas = await ZonaModel.getAll();
+    const { searchParams } = new URL(request.url);
+    const buscar = searchParams.get('buscar');
+
+    let zonas;
+
+    if (buscar) {
+      zonas = await ZonaModel.search(buscar);
+    } else {
+      zonas = await ZonaModel.getAll();
+    }
+
     return NextResponse.json(zonas);
   } catch (error) {
+    console.error(error);
+
     return NextResponse.json(
       { error: error.message },
       { status: 500 }

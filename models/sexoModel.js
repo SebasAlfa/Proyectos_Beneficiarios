@@ -28,6 +28,17 @@ const SexoModel = {
       [ID_SEXO]
     );
     return result;
+  },
+
+  search: async (texto) => {
+    const [rows] = await pool.query(
+      `SELECT * FROM sexo
+       WHERE CAST(ID_SEXO AS CHAR) LIKE ?
+       OR SEXOS LIKE ?`,
+      [`%${texto}%`, `%${texto}%`]
+    );
+
+    return rows;
   }
 };
 

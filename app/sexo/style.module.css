@@ -112,4 +112,20 @@
         flex-direction: column;
         align-items: flex-start;
     }
+
+/* Buscador */
+
+.searchContainer {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 25px;
+}
+
+.searchContainer .input {
+    flex: 1;
+    min-width: 220px;
+}
 }

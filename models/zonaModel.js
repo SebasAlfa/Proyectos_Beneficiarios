@@ -28,6 +28,16 @@ const ZonaModel = {
       [Id_zona]
     );
     return result;
+  },
+
+  search: async (texto) => {
+    const [rows] = await pool.query(
+      `SELECT * FROM zona
+       WHERE ZONA_COLEGIO_GRADUACION_MEDIA LIKE ?`,
+      [`%${texto}%`]
+    );
+
+    return rows;
   }
 };
 

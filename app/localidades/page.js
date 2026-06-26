@@ -7,11 +7,16 @@ export default function LocalidadesCrud() {
   const [localidades, setLocalidades] = useState([]);
   const [codLocalidad, setCodLocalidad] = useState('');
   const [nombreLocalidad, setNombreLocalidad] = useState('');
+  const [buscar, setBuscar] = useState('');
   const [editandoId, setEditandoId] = useState(null);
 
-  const fetchLocalidades = async () => {
+  const fetchLocalidades = async (texto = '') => {
     try {
-      const res = await fetch('/api/localidades');
+      const url = texto
+        ? `/api/localidades?buscar=${encodeURIComponent(texto)}`
+        : '/api/localidades';
+
+      const res = await fetch(url);
       const data = await res.json();
 
       if (Array.isArray(data)) {
@@ -27,6 +32,12 @@ export default function LocalidadesCrud() {
   useEffect(() => {
     fetchLocalidades();
   }, []);
+
+  const buscarLocalidad = (e) => {
+    const texto = e.target.value;
+    setBuscar(texto);
+    fetchLocalidades(texto);
+  };
 
   const prepararEdicion = (loc) => {
     setCodLocalidad(loc.CODLOC);
@@ -66,6 +77,7 @@ export default function LocalidadesCrud() {
 
       setCodLocalidad('');
       setNombreLocalidad('');
+      setBuscar('');
 
       fetchLocalidades();
     } catch (error) {
@@ -88,6 +100,28 @@ export default function LocalidadesCrud() {
   return (
     <div className={styles.container}>
       <h1>Gestión de Localidades</h1>
+
+      <input
+        className={styles.input}
+        type="text"
+        placeholder="Buscar por código o nombre..."
+        value={buscar}
+        onChange={buscarLocalidad}
+      />
+
+      <button
+        className={styles.button}
+        onClick={() => {
+          setBuscar('');
+          fetchLocalidades();
+        }}
+        style={{ marginLeft: '10px' }}
+      >
+        Mostrar todas
+      </button>
+
+      <br />
+      <br />
 
       <form onSubmit={guardarLocalidad} className={styles.form}>
         <input
@@ -114,25 +148,31 @@ export default function LocalidadesCrud() {
       </form>
 
       <div>
-        {localidades.map((loc) => (
-          <div key={loc.Id_localidad} className={styles.card}>
-            <strong>Código: {loc.CODLOC}</strong> - {loc.LOCALIDAD}
+        {localidades.length > 0 ? (
+          localidades.map((loc) => (
+            <div key={loc.Id_localidad} className={styles.card}>
+              <strong>Código: {loc.CODLOC}</strong> - {loc.LOCALIDAD}
 
-            <button
-              className={styles.button}
-              onClick={() => prepararEdicion(loc)}
-            >
-              Editar
-            </button>
+              <div style={{ marginTop: '10px' }}>
+                <button
+                  className={styles.button}
+                  onClick={() => prepararEdicion(loc)}
+                >
+                  Editar
+                </button>
 
-            <button
-              className={`${styles.button} ${styles.buttonDelete}`}
-              onClick={() => borrarLocalidad(loc.Id_localidad)}
-            >
-              Borrar
-            </button>
-          </div>
-        ))}
+                <button
+                  className={`${styles.button} ${styles.buttonDelete}`}
+                  onClick={() => borrarLocalidad(loc.Id_localidad)}
+                >
+                  Borrar
+                </button>
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No se encontraron localidades.</p>
+        )}
       </div>
     </div>
   );
